@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>DATA</title>
+    <style>
+      .container {
+        border-radius: 5px;
+        background-color: blanchedalmond;
+        padding: 20px;
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+      }
+      input {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid red;
+        border-radius: 10px;
+        box-sizing: border-box;
+        margin-top: 6px;
+        margin-bottom: 16px;
+        resize: vertical;
+        resize: none;
+      }
+      #btn {
+        cursor: pointer;
+        background-color: seagreen;
+      }
+      table,
+      td,
+      th {
+        border: 1px solid black;
+        text-align: center;
+      }
+
+      table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+      img {
+        width: auto;
+        height: 3rem;
+        display: block;
+        margin: auto;
+      }
+      th {
+        height: 50px;
+      }
+    </style>
+    <link rel="stylesheet" href="main.css" />
+  </head>
+  <body>
+    <div class="container">
+      <label for="fname">FIRST NAME</label>
+      <input type="text" name="fname" id="fname" />
+      <label for="lname">LAST NAME</label>
+      <input type="text" name="lname" id="lname" />
+      <label for="email">EMAIL</label>
+      <input type="text" name="email" id="email" />
+      <label for="img">IMAGE</label>
+      <input type="file" name="img" id="img" />
+      <label for="date">Date</label>
+      <input type="date" name="date" id="date" />
+
+      <input
+        type="button"
+        name="button"
+        id="btn"
+        value="Add"
+        onclick="AddRow()"
+      />
+    </div>
+
+    <table id="show">
+      <tr>
+        <th>First Name</th>
+        <!-- <th>Last Name</th> -->
+        <th>Email</th>
+        <th>IMAGE</th>
+        <th>Date</th>
+      </tr>
+    </table>
+
+    <script>
+      var list1 = [];
+      var list2 = [];
+      var list3 = [];
+      var list4 = [];
+      var list5 = [];
+
+      var n = 1;
+      var x = 0;
+
+      function AddRow() {
+        var AddRown = document.getElementById("show");
+        var NewRow = AddRown.insertRow(n);
+
+        list1[x] = document.getElementById("fname").value;
+        list2[x] = document.getElementById("lname").value;
+        list3[x] = document.getElementById("email").value;
+        list4[x] = document.getElementById("img").files[0];
+        list5[x] = document.getElementById("date").value;
+
+        var cel1 = NewRow.insertCell(0);
+
+        var cel3 = NewRow.insertCell(1);
+        var cel4 = NewRow.insertCell(2);
+        var cel5 = NewRow.insertCell(3);
+
+        cel1.innerHTML = list1[x] + " " + list2[x];
+        // cel2.innerHTML = list2[x];
+        cel3.innerHTML = list3[x];
+        cel4.innerHTML = `<img src='${URL.createObjectURL(list4[x])}' /> `;
+        cel5.innerHTML = list5[x];
+
+        n++;
+        x++;
+      }
+    </script>
+  </body>
+</html>
