@@ -2,7 +2,19 @@
 <html>
   <head>
     <title>DATA</title>
+
     <style>
+      /* Chrome, Safari, Edge, Opera */
+      input::-webkit-outer-spin-button,
+      input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+
+      /* Firefox */
+      input[type="number"] {
+        -moz-appearance: textfield;
+      }
       .container {
         border-radius: 5px;
         background-color: blanchedalmond;
@@ -11,7 +23,8 @@
         margin-right: auto;
         display: block;
       }
-      input {
+      input,
+      button {
         width: 100%;
         padding: 12px;
         border: 1px solid red;
@@ -21,9 +34,13 @@
         margin-bottom: 16px;
         resize: none;
       }
+
       #btn {
         cursor: pointer;
         background-color: seagreen;
+      }
+      p {
+        color: red;
       }
       table,
       td,
@@ -46,102 +63,98 @@
         height: 50px;
       }
     </style>
-    <link rel="stylesheet" href="main.css" />
   </head>
   <body>
-    <div class="container">
-      <label for="fname">FIRST NAME</label>
-      <input
-        type="text"
-        name="fname"
-        id="fname"
-        placeholder=" Enter Your First Name "
-      />
-      <label for="lname">LAST NAME</label>
-      <input
-        type="text"
-        name="lname"
-        id="lname"
-        placeholder=" Enter Your Last Name "
-      />
-      <label for="email">EMAIL</label>
-      <input
-        type="text"
-        name="email"
-        id="email"
-        placeholder=" Enter Your Email "
-      />
-      <label for="mobile">Mobile Number:</label>
-      <input type="number" id="mobile" name="mobile" required />
+    <form action="" onsubmit="addRow()">
+      <div class="container">
+        <label for="fname">FIRST NAME</label>
+        <input type="text" name="fname" id="fname" required />
 
-      <label for="img">IMAGE</label>
-      <input type="file" name="img" id="img" />
-      <label for="date">Date</label>
-      <input type="date" name="date" id="date" />
+        <label for="lname">LAST NAME</label>
+        <input type="text" name="lname" id="lname" required />
 
-      <input
-        type="button"
-        name="button"
-        id="btn"
-        value="Add"
-        onclick="AddRow()"
-      />
-    </div>
+        <label for="email">EMAIL</label>
+        <input type="text" name="email" id="email" required />
 
-    <table id="show">
-      <tr>
-        <th>ID</th>
-        <th>Full Name</th>
+        <label for="mobile">Mobile</label>
+        <input type="number" name="mobile" id="mobile" required />
+        <p id="phone"></p>
 
-        <th>Email</th>
+        <label for="img">IMAGE</label>
+        <input type="file" name="img" id="img" required />
 
-        <th>IMAGE</th>
-        <th>Date</th>
-        <th>Mobile Number</th>
-      </tr>
-    </table>
+        <label for="date">Date</label>
+        <input type="date" name="date" id="date" required />
+
+        <button type="submit" name="button" id="btn" value="Add">submit</button>
+      </div>
+      <table id="show">
+        <tr>
+          <th>ID</th>
+          <th>Full Name</th>
+          <th>Email</th>
+          <th>mobile number</th>
+          <th>Image</th>
+          <th>Date</th>
+        </tr>
+      </table>
+    </form>
 
     <script>
-      const idStartingPoint = 23001;
+      const idStartingPoint = 23000;
+      const table = document.getElementById("show");
 
-      var list1 = [];
-      var list2 = [];
-      var list3 = [];
-      var list4 = [];
-      var list5 = [];
-      var list6 = [];
+      //selector
+      const currentNum = table.querySelectorAll("tbody > *").length;
+      const firstName = document.getElementById("fname");
+      const lastName = document.getElementById("lname");
+      const email = document.getElementById("email");
+      const mobile = document.getElementById("mobile");
+      const img = document.getElementById("img");
+      const date = document.getElementById("date");
+      const phoneId = document.getElementById("phone");
+      mobile.addEventListener("keyup", function () {
+        const phone = mobile.value;
+        const regex = /^[+88]?([01][7|8|9]([0-9]{8})$)/;
+        // console.log(regex.test(parseInt(phone)));
+        if (!regex.test(parseInt(phone)) & (phone.length >= 12)) {
+          // console.log("true");
+          phoneId.innerHTML = "please valid number";
+        } else {
+          // console.log(phoneId);
+          phoneId.innerHTML = "";
+        }
+      });
 
-      var n = 1;
-      var x = 0;
+      const addRow = () => {
+        event.preventDefault();
+        console.log(img.files[0]);
 
-      function AddRow() {
-        var AddRown = document.getElementById("show");
-        var NewRow = AddRown.insertRow(n);
+        function isValidPhoneNumber(phoneNumber) {
+          // var regex = /(\+88)?01\d{9}/;
+          // const regex = /(\+88)?01(7|8|9)\d{8}/;
+          const regex = /^[+88]?([01][7|8|9]([0-9]{8})$)/;
+          return regex.test(parseInt(phoneNumber));
+          // console.log(regex.test(parseInt(phoneNumber)));
+        }
 
-        list1[x] = document.getElementById("fname").value;
-        list2[x] = document.getElementById("lname").value;
-        list3[x] = document.getElementById("email").value;
-        list4[x] = document.getElementById("img").files[0];
-        list5[x] = document.getElementById("date").value;
-        list6[x] = document.getElementById("mobile").value;
-
-        var cel1 = NewRow.insertCell(0);
-        var cel2 = NewRow.insertCell(1);
-        var cel3 = NewRow.insertCell(2);
-        var cel4 = NewRow.insertCell(3);
-        var cel5 = NewRow.insertCell(4);
-        var cel6 = NewRow.insertCell(5);
-
-        cel1.innerHTML = idStartingPoint + x;
-        cel2.innerHTML = list1[x] + " " + list2[x];
-        cel3.innerHTML = list3[x];
-        cel4.innerHTML = `<img src='${URL.createObjectURL(list4[x])}' /> `;
-        cel5.innerHTML = list5[x];
-        cel6.innerHTML = list6[x];
-
-        n++;
-        x++;
-      }
+        if (!isValidPhoneNumber(mobile.value)) {
+          return alert("Please valid number");
+        }
+        if (!confirm("add")) {
+          return;
+        }
+        const row = table.insertRow(currentNum);
+        row.innerHTML = `
+        <td>${idStartingPoint + currentNum - 1}</td>
+        <td>${firstName.value} ${lastName.value}</td>
+        <td>${email.value}</td>
+        <td>${mobile.value}</td>
+        <td><img src="${URL.createObjectURL(img.files[0])}" /></td>
+        <td>${date.value}</td>
+        `;
+        document.querySelector("form").reset();
+      };
     </script>
   </body>
 </html>
